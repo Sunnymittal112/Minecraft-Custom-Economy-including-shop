@@ -1,0 +1,159 @@
+# ----------------------------------------
+#        TITAN MARKETPLACE (MEGA)
+# ----------------------------------------
+
+main-menu:
+  title: "&8&lTitan Marketplace"
+  rows: 3
+  categories:
+    blocks:
+      material: GRASS_BLOCK
+      slot: 10
+      name: "&2&lBuilding Blocks"
+      lore: ["&7Stone, Wood, Glass & More"]
+    food:
+      material: COOKED_BEEF
+      slot: 11
+      name: "&a&lFarming & Food"
+      lore: ["&7Stay fed, stay alive"]
+    ores:
+      material: DIAMOND
+      slot: 12
+      name: "&b&lMinerals & Ores"
+      lore: ["&7Iron, Gold, Diamonds"]
+    weapons:
+      material: NETHERITE_SWORD
+      slot: 13
+      name: "&c&lWeapons & Armor"
+      lore: ["&7Gear up for battle"]
+    redstone:
+      material: REDSTONE
+      slot: 14
+      name: "&4&lRedstone"
+      lore: ["&7For the engineers"]
+    misc:
+      material: ENDER_PEARL
+      slot: 15
+      name: "&5&lMagic & Misc"
+      lore: ["&7Rares, Dyes, XP"]
+    nether:
+      material: NETHERRACK
+      slot: 16
+      name: "&6&lNether & End"
+      lore: ["&7Otherworldly blocks"]
+
+# --- ITEMS ---
+# Note: 'amount' hata diya hai kyunki ab hum Menu se select karenge (1, 32, 64)
+menus:
+  blocks:
+    title: "Shop: Blocks"
+    items:
+      grass: { material: GRASS_BLOCK, slot: 0, price: 5.0, name: "&2Grass Block" }
+      dirt: { material: DIRT, slot: 1, price: 2.0, name: "&6Dirt" }
+      stone: { material: STONE, slot: 2, price: 5.0, name: "&7Stone" }
+      cobble: { material: COBBLESTONE, slot: 3, price: 3.0, name: "&7Cobblestone" }
+      oak_log: { material: OAK_LOG, slot: 4, price: 10.0, name: "&6Oak Log" }
+      spruce_log: { material: SPRUCE_LOG, slot: 5, price: 10.0, name: "&6Spruce Log" }
+      birch_log: { material: BIRCH_LOG, slot: 6, price: 10.0, name: "&6Birch Log" }
+      planks: { material: OAK_PLANKS, slot: 7, price: 2.5, name: "&6Oak Planks" }
+      sand: { material: SAND, slot: 8, price: 4.0, name: "&eSand" }
+      glass: { material: GLASS, slot: 9, price: 6.0, name: "&fGlass" }
+      wool: { material: WHITE_WOOL, slot: 10, price: 8.0, name: "&fWhite Wool" }
+      brick: { material: BRICKS, slot: 11, price: 15.0, name: "&cBricks" }
+      obsidian: { material: OBSIDIAN, slot: 12, price: 50.0, name: "&5Obsidian" }
+      gravel: { material: GRAVEL, slot: 13, price: 3.0, name: "&7Gravel" }
+      clay: { material: CLAY, slot: 14, price: 10.0, name: "&7Clay Block" }
+      ice: { material: ICE, slot: 15, price: 20.0, name: "&bIce" }
+      snow: { material: SNOW_BLOCK, slot: 16, price: 5.0, name: "&fSnow Block" }
+      sea_lantern: { material: SEA_LANTERN, slot: 18, price: 80.0, name: "&bSea Lantern" }
+      glowstone: { material: GLOWSTONE, slot: 19, price: 60.0, name: "&eGlowstone" }
+      bookshelf: { material: BOOKSHELF, slot: 20, price: 40.0, name: "&dBookshelf" }
+
+  food:
+    title: "Shop: Food"
+    items:
+      steak: { material: COOKED_BEEF, slot: 0, price: 10.0, name: "&6Steak" }
+      pork: { material: COOKED_PORKCHOP, slot: 1, price: 10.0, name: "&6Cooked Porkchop" }
+      chicken: { material: COOKED_CHICKEN, slot: 2, price: 8.0, name: "&6Cooked Chicken" }
+      bread: { material: BREAD, slot: 3, price: 5.0, name: "&eBread" }
+      carrot: { material: CARROT, slot: 4, price: 3.0, name: "&6Carrot" }
+      potato: { material: POTATO, slot: 5, price: 3.0, name: "&ePotato" }
+      g_carrot: { material: GOLDEN_CARROT, slot: 6, price: 50.0, name: "&6Golden Carrot" }
+      g_apple: { material: GOLDEN_APPLE, slot: 7, price: 100.0, name: "&eGolden Apple" }
+      ench_gapple: { material: ENCHANTED_GOLDEN_APPLE, slot: 8, price: 5000.0, name: "&5God Apple" }
+      cake: { material: CAKE, slot: 10, price: 150.0, name: "&dCake" }
+      cookie: { material: COOKIE, slot: 11, price: 2.0, name: "&6Cookie" }
+      melon: { material: MELON_SLICE, slot: 12, price: 2.0, name: "&aMelon Slice" }
+
+  ores:
+    title: "Shop: Ores"
+    items:
+      coal: { material: COAL, slot: 0, price: 5.0, name: "&8Coal" }
+      iron_ingot: { material: IRON_INGOT, slot: 1, price: 20.0, name: "&fIron Ingot" }
+      gold_ingot: { material: GOLD_INGOT, slot: 2, price: 40.0, name: "&6Gold Ingot" }
+      diamond: { material: DIAMOND, slot: 3, price: 100.0, name: "&bDiamond" }
+      emerald: { material: EMERALD, slot: 4, price: 120.0, name: "&aEmerald" }
+      lapis: { material: LAPIS_LAZULI, slot: 5, price: 10.0, name: "&9Lapis Lazuli" }
+      quartz: { material: QUARTZ, slot: 6, price: 8.0, name: "&fNether Quartz" }
+      netherite: { material: NETHERITE_INGOT, slot: 8, price: 2000.0, name: "&8Netherite Ingot" }
+      iron_block: { material: IRON_BLOCK, slot: 9, price: 180.0, name: "&fIron Block" }
+      gold_block: { material: GOLD_BLOCK, slot: 10, price: 360.0, name: "&6Gold Block" }
+      diamond_block: { material: DIAMOND_BLOCK, slot: 11, price: 900.0, name: "&bDiamond Block" }
+
+  weapons:
+    title: "Shop: Weapons"
+    items:
+      d_sword: { material: DIAMOND_SWORD, slot: 0, price: 500.0, name: "&bDiamond Sword" }
+      d_pick: { material: DIAMOND_PICKAXE, slot: 1, price: 400.0, name: "&bDiamond Pickaxe" }
+      d_axe: { material: DIAMOND_AXE, slot: 2, price: 400.0, name: "&bDiamond Axe" }
+      d_shovel: { material: DIAMOND_SHOVEL, slot: 3, price: 200.0, name: "&bDiamond Shovel" }
+      n_sword: { material: NETHERITE_SWORD, slot: 4, price: 5000.0, name: "&8Netherite Sword" }
+      bow: { material: BOW, slot: 6, price: 100.0, name: "&eBow" }
+      arrow: { material: ARROW, slot: 7, price: 5.0, name: "&7Arrow" }
+      shield: { material: SHIELD, slot: 8, price: 100.0, name: "&7Shield" }
+      d_helm: { material: DIAMOND_HELMET, slot: 9, price: 600.0, name: "&bDiamond Helmet" }
+      d_chest: { material: DIAMOND_CHESTPLATE, slot: 10, price: 1200.0, name: "&bDiamond Chestplate" }
+      d_legs: { material: DIAMOND_LEGGINGS, slot: 11, price: 900.0, name: "&bDiamond Leggings" }
+      d_boots: { material: DIAMOND_BOOTS, slot: 12, price: 500.0, name: "&bDiamond Boots" }
+      totem: { material: TOTEM_OF_UNDYING, slot: 14, price: 3000.0, name: "&eTotem of Undying" }
+
+  redstone:
+    title: "Shop: Redstone"
+    items:
+      dust: { material: REDSTONE, slot: 0, price: 5.0, name: "&cRedstone Dust" }
+      torch: { material: REDSTONE_TORCH, slot: 1, price: 10.0, name: "&cRedstone Torch" }
+      repeater: { material: REPEATER, slot: 2, price: 20.0, name: "&cRepeater" }
+      comparator: { material: COMPARATOR, slot: 3, price: 30.0, name: "&cComparator" }
+      piston: { material: PISTON, slot: 4, price: 50.0, name: "&7Piston" }
+      s_piston: { material: STICKY_PISTON, slot: 5, price: 80.0, name: "&aSticky Piston" }
+      observer: { material: OBSERVER, slot: 6, price: 60.0, name: "&8Observer" }
+      dispenser: { material: DISPENSER, slot: 7, price: 40.0, name: "&8Dispenser" }
+      hopper: { material: HOPPER, slot: 8, price: 100.0, name: "&8Hopper" }
+      tnt: { material: TNT, slot: 9, price: 50.0, name: "&cTNT" }
+      slime: { material: SLIME_BALL, slot: 10, price: 20.0, name: "&aSlime Ball" }
+
+  misc:
+    title: "Shop: Misc"
+    items:
+      xp: { material: EXPERIENCE_BOTTLE, slot: 0, price: 50.0, name: "&aXP Bottle" }
+      pearl: { material: ENDER_PEARL, slot: 1, price: 30.0, name: "&3Ender Pearl" }
+      saddle: { material: SADDLE, slot: 2, price: 200.0, name: "&6Saddle" }
+      nametag: { material: NAME_TAG, slot: 3, price: 150.0, name: "&eName Tag" }
+      chest: { material: CHEST, slot: 4, price: 10.0, name: "&6Chest" }
+      e_chest: { material: ENDER_CHEST, slot: 5, price: 500.0, name: "&5Ender Chest" }
+      beacon: { material: BEACON, slot: 8, price: 10000.0, name: "&bBeacon" }
+      white_dye: { material: WHITE_DYE, slot: 9, price: 5.0, name: "&fWhite Dye" }
+      red_dye: { material: RED_DYE, slot: 10, price: 5.0, name: "&cRed Dye" }
+      blue_dye: { material: BLUE_DYE, slot: 11, price: 5.0, name: "&9Blue Dye" }
+
+  nether:
+    title: "Shop: Nether"
+    items:
+      netherrack: { material: NETHERRACK, slot: 0, price: 2.0, name: "&4Netherrack" }
+      soul_sand: { material: SOUL_SAND, slot: 1, price: 5.0, name: "&8Soul Sand" }
+      magma: { material: MAGMA_BLOCK, slot: 2, price: 10.0, name: "&6Magma Block" }
+      quartz_block: { material: QUARTZ_BLOCK, slot: 3, price: 20.0, name: "&fQuartz Block" }
+      end_stone: { material: END_STONE, slot: 5, price: 10.0, name: "&eEnd Stone" }
+      purpur: { material: PURPUR_BLOCK, slot: 6, price: 20.0, name: "&dPurpur Block" }
+      rod: { material: END_ROD, slot: 7, price: 50.0, name: "&fEnd Rod" }
+      elytra: { material: ELYTRA, slot: 8, price: 15000.0, name: "&dElytra" }

@@ -1,0 +1,41 @@
+name: TitanEconomy
+version: 1.0
+main: net.fetal.titaneconomy.TitanEconomy
+api-version: 1.21
+authors: [FeTaL]
+description: The ultimate core plugin featuring Economy, Shop, and HUD.
+
+commands:
+  # --- Economy Commands ---
+  balance:
+    description: Check your wallet balance.
+    aliases: [bal, money]
+    usage: /balance
+  pay:
+    description: Send money to another player.
+    usage: /pay <player> <amount>
+  eco:
+    description: Admin money management.
+    permission: titaneconomy.admin
+    usage: /eco <give|take|set> <player> <amount>
+  baltop:
+    description: Show the richest players.
+    aliases: [top, rich]
+    usage: /baltop
+  withdraw:
+    description: Convert money to bank note.
+    usage: /withdraw <amount>
+  ah:
+    description: Open Auction House.
+    usage: /ah
+
+  # --- Shop Commands ---
+  shop:
+    description: Open the server shop menu.
+    aliases: [market, store]
+    usage: /shop
+
+permissions:
+  titaneconomy.admin:
+    description: Full access to Economy and Shop admin features.
+    default: op
