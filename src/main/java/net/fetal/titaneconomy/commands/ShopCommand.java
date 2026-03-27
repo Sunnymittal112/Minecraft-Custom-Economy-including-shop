@@ -25,9 +25,7 @@ public class ShopCommand implements CommandExecutor {
             return true;
         }
 
-        // --- FIX HERE ---
-        // Purana: shopManager.openShop(player);
-        // Naya: shopManager.openMainMenu(player);
+        // Open the new main menu entry point directly.
         shopManager.openMainMenu(player);
         
         return true;

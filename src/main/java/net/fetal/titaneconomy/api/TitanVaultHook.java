@@ -118,10 +118,10 @@ public class TitanVaultHook extends AbstractEconomy {
         return true;
     }
 
-    // --- THE FIX: MISSING ABSTRACT METHOD ---
+    // --- REQUIRED WORLD-SPECIFIC OVERLOAD ---
     @Override
     public boolean createPlayerAccount(String playerName, String worldName) {
-        // Hum World Name ignore karenge, kyunki Economy Global hai
+        // Ignore the world name because this economy is global.
         return createPlayerAccount(playerName);
     }
     

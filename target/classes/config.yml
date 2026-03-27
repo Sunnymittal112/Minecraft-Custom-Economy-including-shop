@@ -5,40 +5,47 @@
 settings:
   currency-symbol: "$"
   start-balance: 500.0
+  sell-chest-interval-minutes: 3.0
+  break-drops-at-feet: true
+  spawners-drop-themselves: true
   format-balance: true 
 
-# --- 📊 LEVELING SYSTEM (THE HOOK) ---
+scoreboard:
+  header: "  &6&lTITAN NETWORK  "
+  footer: "&6play.titan.com"
+
+# --- LEVELING SYSTEM ---
 leveling:
   enabled: true
   max-level: 10
   
-  # Money Multiplier: Har level pe paisa kitna badhega?
-  # Ab hum 0.5 (50%) increase denge har level par.
+  # Money Multiplier: how much should earnings increase per level?
+  # This currently adds 0.5 (50%) per level.
   # Formula: BasePrice * (1 + (Level * 0.5))
   # Example: 
   # Lvl 1: $10 (Base)
   # Lvl 5: $35 (3.5x)
-  # Lvl 10: $60 (6x) - Agar base $100 hai to $600 milega!
+  # Lvl 10: $60 (6x). If the base price is $100, the payout becomes $600.
   money-multiplier: 0.5
   
   # XP Requirements (Easy -> Medium -> Hardcore)
   requirements:
     1: 150    # Easy start
-    2: 400    # Thoda grind
-    3: 900    # Abhi bhi easy hai
-    4: 2500   # MEDIUM START (Yahan se time lagega)
+    2: 400    # Light grind
+    3: 900    # Still easy
+    4: 2500   # MEDIUM START (This is where the grind slows down)
     5: 5000
     6: 9000
     7: 15000  # MEDIUM END
-    8: 30000  # HARD START (Asli grind)
+    8: 30000  # HARD START (Real grind)
     9: 50000
-    10: 100000 # MAX LEVEL (God Status)
+    10: 100000 # MAX LEVEL
 
-# --- 💰 EARNING MECHANICS ---
+# --- EARNING MECHANICS ---
 earnings:
   mobs:
     enabled: true
-    xp-reward: 15 # XP badha diya taaki bar jaldi bhare shuru mein
+    xp-reward: 15 # Increased so the XP bar fills faster early on
     values:
       ZOMBIE: 10.0   # Base Price increased
       SKELETON: 12.0
@@ -54,5 +61,5 @@ earnings:
       COAL_ORE: 5.0
       IRON_ORE: 10.0
       GOLD_ORE: 20.0
-      DIAMOND_ORE: 100.0 # Lvl 10 player ko ek Diamond ka $600 milega!
+      DIAMOND_ORE: 100.0 # A level 10 player earns $600 per diamond with the current multiplier
       ANCIENT_DEBRIS: 300.0

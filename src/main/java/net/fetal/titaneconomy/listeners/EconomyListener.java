@@ -72,8 +72,8 @@ public class EconomyListener implements Listener {
         // 3. Show Action Bar
         sendActionBar(player, finalPrice, xp);
         
-        // 4. UPDATE SCOREBOARD (IMPORTANT)
-        // Jaise hi paisa mile, HUD update karo
+        // 4. UPDATE THE SCOREBOARD IMMEDIATELY
+        // Refresh the HUD as soon as the player receives money.
         plugin.getScoreboardManager().updateScoreboard(player);
     }
 

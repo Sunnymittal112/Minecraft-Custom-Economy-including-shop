@@ -27,14 +27,14 @@ public class TopCommand implements CommandExecutor {
         
         sender.sendMessage(Component.text("Calculating Top 10 Richest...", NamedTextColor.GRAY));
 
-        // Async Run (Taaki server lag na kare agar 1000 players hon)
+        // Run asynchronously so large player datasets do not stall the server.
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             DataManager data = plugin.getEconomyManager().getDataManager();
             
-            // Map ko sort karna (Highest Value First)
+            // Sort balances from highest to lowest.
             List<Map.Entry<UUID, Double>> topList = data.balanceCache.entrySet().stream()
-                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // Sort Logic
-                    .limit(10) // Sirf top 10
+                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // Sorting logic
+                    .limit(10) // Top 10 only
                     .collect(Collectors.toList());
 
             // Header

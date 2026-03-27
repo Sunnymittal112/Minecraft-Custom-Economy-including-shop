@@ -11,8 +11,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Set;
 
 public class ShopListener implements Listener {
 
@@ -28,11 +32,39 @@ public class ShopListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         String title = LegacyComponentSerializer.legacyAmpersand().serialize(event.getView().title());
         String mainTitle = shopManager.getConfig().getString("main-menu.title", "Titan Marketplace");
+
+        if (shopManager.isSellMenu(title)) {
+            event.setCancelled(true);
+
+            if (event.getClickedInventory() != event.getView().getTopInventory()) {
+                return;
+            }
+
+            int slot = event.getSlot();
+            if (slot == shopManager.getSellCancelSlot()) {
+                shopManager.clearSellSelection(player.getUniqueId());
+                player.closeInventory();
+                return;
+            }
+
+            if (slot == shopManager.getSellConfirmSlot()) {
+                sellSelectedSlots(player);
+                return;
+            }
+
+            if (shopManager.isSellMenuSlot(slot)) {
+                shopManager.toggleSellSelection(player, slot);
+                shopManager.refreshSellMenu(player, event.getView().getTopInventory());
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.1f);
+            }
+            return;
+        }
+
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) return;
 
         // --- 1. MAIN MENU ---
         if (title.equals(mainTitle)) {
@@ -57,15 +89,18 @@ public class ShopListener implements Listener {
 
             if (shopManager.menuItemsCache.containsKey(title)) {
                 if (shopManager.menuItemsCache.get(title).containsKey(slot)) {
-                    String itemKey = shopManager.menuItemsCache.get(title).get(slot);
-                    String catId = title.replace("Shop: ", "").toLowerCase();
-                    // Exception handling for weird titles
-                    if(catId.contains("armor")) catId = "armor"; 
-                    
-                    String path = "menus." + catId + ".items." + itemKey;
-                    
-                    // OPEN QUANTITY MENU INSTEAD OF BUYING
-                    shopManager.openQuantityMenu(player, path);
+                    String itemPath = shopManager.menuItemsCache.get(title).get(slot);
+                    if (!shopManager.canBuy(itemPath)) {
+                        player.sendMessage(Component.text(
+                            shopManager.isUnavailable(itemPath)
+                                ? "This item is currently unavailable."
+                                : "This item cannot be bought from the shop.",
+                            NamedTextColor.RED
+                        ));
+                        player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                        return;
+                    }
+                    shopManager.openQuantityMenu(player, itemPath);
                     player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
                 }
             }
@@ -78,6 +113,7 @@ public class ShopListener implements Listener {
             int slot = event.getSlot();
 
             if (slot == 22) { // Cancel Button
+                shopManager.pendingPurchase.remove(player.getUniqueId());
                 player.closeInventory(); 
                 // Optional: Re-open category, but closing is safer to avoid loops
                 return;
@@ -89,9 +125,19 @@ public class ShopListener implements Listener {
             }
 
             String itemPath = shopManager.pendingPurchase.get(player.getUniqueId());
-            double unitPrice = shopManager.getConfig().getDouble(itemPath + ".price");
-            String matName = shopManager.getConfig().getString(itemPath + ".material");
-            Material mat = Material.valueOf(matName);
+            if (!shopManager.canBuy(itemPath)) {
+                shopManager.pendingPurchase.remove(player.getUniqueId());
+                player.sendMessage(Component.text(
+                    shopManager.isUnavailable(itemPath)
+                        ? "This item is currently unavailable."
+                        : "This item cannot be bought from the shop.",
+                    NamedTextColor.RED
+                ));
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                player.closeInventory();
+                return;
+            }
+            double unitPrice = shopManager.getBuyPrice(itemPath);
 
             int amount = 0;
             if (slot == 11) amount = 1;
@@ -100,15 +146,17 @@ public class ShopListener implements Listener {
 
             if (amount > 0) {
                 double finalPrice = unitPrice * amount;
+                ItemStack purchasedItem = shopManager.createPurchasedItem(itemPath, amount);
 
                 if (economyManager.getBalance(player) >= finalPrice) {
-                    if (hasSpace(player, amount)) {
+                    if (hasSpace(player, purchasedItem.getAmount())) {
                         economyManager.withdraw(player, finalPrice);
-                        player.getInventory().addItem(new ItemStack(mat, amount));
+                        player.getInventory().addItem(purchasedItem);
+                        shopManager.pendingPurchase.remove(player.getUniqueId());
 
                         player.sendMessage(Component.text("Bought " + amount + "x ", NamedTextColor.GREEN)
-                            .append(Component.text(mat.name(), NamedTextColor.YELLOW))
-                            .append(Component.text(" for $" + finalPrice, NamedTextColor.GREEN)));
+                            .append(Component.text(shopManager.getPlainItemName(itemPath), NamedTextColor.YELLOW))
+                            .append(Component.text(" for $" + shopManager.formatPrice(finalPrice), NamedTextColor.GREEN)));
                         
                         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
                         plugin.getScoreboardManager().updateScoreboard(player);
@@ -118,10 +166,30 @@ public class ShopListener implements Listener {
                         player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                     }
                 } else {
-                    player.sendMessage(Component.text("Need $" + finalPrice, NamedTextColor.RED));
+                    player.sendMessage(Component.text("Need $" + shopManager.formatPrice(finalPrice), NamedTextColor.RED));
                     player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        String title = LegacyComponentSerializer.legacyAmpersand().serialize(event.getView().title());
+        if (shopManager.isSellMenu(title)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        String title = LegacyComponentSerializer.legacyAmpersand().serialize(event.getView().title());
+        if (shopManager.isSellMenu(title)) {
+            shopManager.clearSellSelection(event.getPlayer().getUniqueId());
+            return;
+        }
+        if (title.startsWith("&8Select Amount:")) {
+            shopManager.pendingPurchase.remove(event.getPlayer().getUniqueId());
         }
     }
     
@@ -136,5 +204,37 @@ public class ShopListener implements Listener {
             }
         }
         return free >= amount; // Very basic check
+    }
+
+    private void sellSelectedSlots(Player player) {
+        Set<Integer> selectedSlots = shopManager.getSelectedSellSlots(player.getUniqueId());
+        if (selectedSlots.isEmpty()) {
+            player.sendMessage(Component.text("Select at least one sellable slot first.", NamedTextColor.RED));
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+            return;
+        }
+
+        double total = 0.0D;
+        int soldSlots = 0;
+        for (int playerSlot : selectedSlots) {
+            double slotValue = shopManager.sellInventorySlot(player, playerSlot);
+            if (slotValue > 0.0D) {
+                total += slotValue;
+                soldSlots++;
+            }
+        }
+
+        shopManager.clearSellSelection(player.getUniqueId());
+        if (soldSlots == 0) {
+            player.sendMessage(Component.text("Nothing selected could be sold.", NamedTextColor.RED));
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+            player.closeInventory();
+            return;
+        }
+
+        player.sendMessage(Component.text("Sold items from " + soldSlots + " slot(s) for $" + shopManager.formatPrice(total), NamedTextColor.GREEN));
+        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.2f);
+        plugin.getScoreboardManager().updateScoreboard(player);
+        player.closeInventory();
     }
 }

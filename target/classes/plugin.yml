@@ -34,6 +34,12 @@ commands:
     description: Open the server shop menu.
     aliases: [market, store]
     usage: /shop
+  sell:
+    description: Open the sell selection menu.
+    usage: /sell
+  sellhand:
+    description: Sell the full item stack in your main hand to the shop.
+    usage: /sellhand
 
 permissions:
   titaneconomy.admin:

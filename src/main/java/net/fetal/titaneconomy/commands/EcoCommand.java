@@ -36,7 +36,7 @@ public class EcoCommand implements CommandExecutor {
         }
 
         String action = args[0].toLowerCase();
-        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]); // Offline support zaroori hai admin ke liye
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]); // Admin commands need offline-player support
         
         double amount;
         try {

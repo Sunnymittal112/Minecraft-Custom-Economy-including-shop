@@ -38,11 +38,11 @@ public class NoteListener implements Listener {
         if (item == null || item.getType() != Material.PAPER) return;
 
         // --- SECURITY CHECK ---
-        // Check karte hain ki kya isme hamara secret key hai?
+        // Check whether this item contains our hidden bank-note key.
         NamespacedKey key = new NamespacedKey(plugin, "banknote-value");
         
         if (!item.getItemMeta().getPersistentDataContainer().has(key, PersistentDataType.DOUBLE)) {
-            // Yeh normal paper hai, Bank Note nahi
+            // This is normal paper, not a bank note.
             return;
         }
 
@@ -51,7 +51,7 @@ public class NoteListener implements Listener {
 
         // --- TRANSACTION ---
         // 1. Remove 1 Item
-        item.setAmount(item.getAmount() - 1); // Stack mein se 1 kam karo
+        item.setAmount(item.getAmount() - 1); // Remove one item from the stack
 
         // 2. Add Money
         economyManager.deposit(player, amount);

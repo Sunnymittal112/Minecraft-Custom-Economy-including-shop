@@ -22,9 +22,9 @@ public class ChatListener implements Listener {
     public void onChat(AsyncChatEvent event) {
         Player player = event.getPlayer();
         
-        // Data fetch karo
+        // Fetch player data
         int level = plugin.getLevelManager().getLevel(player);
-        // Balance ko 'k' format mein dikhate hain (e.g. 1.5k) taaki chat lamba na ho
+        // Format the balance with a compact suffix (for example 1.5k) to keep chat short.
         double bal = plugin.getEconomyManager().getBalance(player);
         String balFormatted = formatValue(bal);
 
@@ -41,7 +41,7 @@ public class ChatListener implements Listener {
         Component name = Component.text(player.getName() + ": ", NamedTextColor.WHITE);
 
         // Combine parts
-        // Note: Paper API mein hum renderer change karte hain for maximum compatibility
+        // Paper chat is customized via the renderer for maximum compatibility.
         event.renderer((source, sourceDisplayName, message, viewer) -> 
             levelPrefix
             .append(moneyPrefix)

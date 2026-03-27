@@ -9,7 +9,7 @@
 ##  Features
 
 * ** Advanced Economy:** Secure balance management with Vault support.
-* ** GUI Shop:** Configurable category-based shop with `x1`, `x32`, `x64` quantity selection.
+* ** GUI Shop:** Configurable category-based buy/sell shop with `x1`, `x32`, `x64` quantity selection, `/sell`, and `/sellhand`.
 * ** Auction House:** Global `/ah` system for players to sell items to each other.
 * ** RPG Leveling:** Earn XP by killing mobs/mining. Higher levels = Higher money multipliers!
 * ** Bank Notes:** Withdraw physical money items to trade or store securely.
@@ -20,7 +20,7 @@
 
 ##  Installation
 
-1.  Download the `TitanEconomy.jar`.
+1.  Download the built `TitanEconomy-1.0-SNAPSHOT.jar`.
 2.  Place it in your server's `plugins` folder.
 3.  **[Optional but Recommended]** Install **Vault** for compatibility with other plugins (like EssentialsX, GriefPrevention).
 4.  Restart your server.
@@ -36,6 +36,8 @@
 | `/pay <player> <amount>` | Send money to another player. |
 | `/withdraw <amount>` | Convert balance into a physical Bank Note. |
 | `/shop` | Open the server Shop GUI. |
+| `/sell` | Open the sell menu for your inventory and hotbar. |
+| `/sellhand` | Sell the full stack in your main hand. |
 | `/ah` | Open the Auction House to buy items. |
 | `/ah sell <price>` | Sell the item in your hand on the Auction House. |
 | `/baltop` | View the top 10 richest players. |
@@ -52,11 +54,29 @@
 ##  Configuration
 
 ### Adding Items to Shop
-You can add unlimited items via `src/main/resources/shops.yml`.
+You can add unlimited items via `plugins/TitanEconomy/shops.yml`.
 
 ```yaml
-  golden_apple:           # Unique Item ID
-    material: GOLDEN_APPLE # Minecraft Material Name
-    slot: 12              # Slot in GUI (0-53)
-    price: 100.0          # Price per 1 unit
-    name: "&6Golden Apple" # Display Name
+menus:
+  food:
+    items:
+      golden_apple:
+        material: GOLDEN_APPLE
+        slot: 12
+        name: '&6Golden Apple'
+        buy: 100.0
+        sell: 20.0
+```
+
+`buy` is the shop purchase price. `sell` is the price used by `/sell` and `/sellhand`.
+
+Legacy entries that still use only `price` are migrated automatically on startup to `buy` and `sell`.
+
+### Scoreboard Configuration
+You can customize the scoreboard title and footer in `plugins/TitanEconomy/config.yml`.
+
+```yaml
+scoreboard:
+  header: "  &6&lTITAN NETWORK  "
+  footer: "&6play.titan.com"
+```

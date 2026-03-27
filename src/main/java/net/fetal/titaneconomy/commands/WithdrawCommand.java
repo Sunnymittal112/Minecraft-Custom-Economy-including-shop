@@ -90,13 +90,14 @@ public class WithdrawCommand implements CommandExecutor {
         meta.lore(lore);
 
         // --- SECURITY LAYER (PDC) ---
-        // Hum amount ko item ke hidden data mein save karenge
+        // Store the amount in the item's hidden persistent data.
         NamespacedKey key = new NamespacedKey(plugin, "banknote-value");
         meta.getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, amount);
 
-        // --- VISUAL GLINT (Enchantment glow without enchant) ---
-        // Modern paper mein glint add karna thoda complex hai, simple rakhte hain.
-        // Agar chahiye toh "Enchantment.LUCK" add karke HideFlag laga sakte hain.
+        // --- VISUAL GLINT (glow without a visible enchantment) ---
+        // Adding a pure visual glint is a little more involved on modern Paper,
+        // so this keeps the note simple. If needed, add Enchantment.LUCK and
+        // hide it with item flags.
         
         note.setItemMeta(meta);
 
