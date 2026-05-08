@@ -29,11 +29,13 @@ public class BalanceCommand implements CommandExecutor {
 
         // Get balance
         double bal = economyManager.getBalance(player);
+        boolean formatBalance = TitanEconomy.getInstance().getConfig().getBoolean("settings.format-balance", true);
+        String formattedBal = formatBalance ? net.fetal.titaneconomy.utils.FormatUtil.formatNumber(bal, true) : String.format("%.2f", bal);
         String currency = TitanEconomy.getInstance().getConfig().getString("settings.currency-symbol", "$");
 
         // Send Message: "Wallet: $500.00"
         player.sendMessage(Component.text("Wallet: ", NamedTextColor.GRAY)
-                .append(Component.text(currency + String.format("%.2f", bal), NamedTextColor.GREEN)));
+                .append(Component.text(currency + formattedBal, NamedTextColor.GREEN)));
 
         return true;
     }

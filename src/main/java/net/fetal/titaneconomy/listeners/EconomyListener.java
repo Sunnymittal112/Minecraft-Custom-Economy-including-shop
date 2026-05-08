@@ -81,8 +81,10 @@ public class EconomyListener implements Listener {
         String symbol = plugin.getConfig().getString("settings.currency-symbol", "$");
         String bar = levelManager.getProgressBar(player);
         int lvl = levelManager.getLevel(player);
+        boolean formatBalance = plugin.getConfig().getBoolean("settings.format-balance", true);
+        String formattedMoney = formatBalance ? net.fetal.titaneconomy.utils.FormatUtil.formatNumber(money, true) : String.format("%.1f", money);
 
-        String msg = "&a+" + symbol + String.format("%.1f", money) + " &8| &eLvl " + lvl + " " + bar + " &b+" + xp + "XP";
-        player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(msg));
+        String msg = "&a+" + symbol + formattedMoney + " &8| &eLvl " + lvl + " " + bar + " &b+" + xp + "XP";
+        player.sendActionBar(net.fetal.titaneconomy.utils.FormatUtil.color(msg));
     }
 }

@@ -146,15 +146,23 @@ public class AuctionManager {
     }
 
     public void saveAuctions() {
-        auctionConfig.set("items", null); // Clear old
-        for (int i = 0; i < auctions.size(); i++) {
-            AuctionItem a = auctions.get(i);
-            auctionConfig.set("items." + i + ".seller", a.sellerUUID.toString());
-            auctionConfig.set("items." + i + ".price", a.price);
-            auctionConfig.set("items." + i + ".item", a.item);
-            auctionConfig.set("items." + i + ".time", a.timestamp);
-        }
-        try { auctionConfig.save(auctionFile); } catch (Exception e) { e.printStackTrace(); }
+        final List<AuctionItem> clonedAuctions = new ArrayList<>(auctions);
+        
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            FileConfiguration asyncConfig = new YamlConfiguration();
+            for (int i = 0; i < clonedAuctions.size(); i++) {
+                AuctionItem a = clonedAuctions.get(i);
+                asyncConfig.set("items." + i + ".seller", a.sellerUUID.toString());
+                asyncConfig.set("items." + i + ".price", a.price);
+                asyncConfig.set("items." + i + ".item", a.item);
+                asyncConfig.set("items." + i + ".time", a.timestamp);
+            }
+            try { 
+                asyncConfig.save(auctionFile); 
+            } catch (Exception e) { 
+                e.printStackTrace(); 
+            }
+        });
     }
 
     private Component color(String s) {

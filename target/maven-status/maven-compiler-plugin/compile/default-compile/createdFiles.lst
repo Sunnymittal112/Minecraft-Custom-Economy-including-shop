@@ -1,4 +1,5 @@
 net\fetal\titaneconomy\listeners\ChatListener.class
+net\fetal\titaneconomy\commands\SellHandCommand.class
 net\fetal\titaneconomy\listeners\PlayerListener.class
 net\fetal\titaneconomy\listeners\AuctionListener.class
 net\fetal\titaneconomy\managers\ScoreboardManager.class
@@ -9,14 +10,20 @@ net\fetal\titaneconomy\TitanEconomy.class
 net\fetal\titaneconomy\commands\ShopCommand.class
 net\fetal\titaneconomy\commands\WithdrawCommand.class
 net\fetal\titaneconomy\managers\ShopManager.class
+net\fetal\titaneconomy\listeners\SellChestListener.class
 net\fetal\titaneconomy\managers\AuctionManager.class
 net\fetal\titaneconomy\commands\AuctionCommand.class
 net\fetal\titaneconomy\commands\PayCommand.class
+net\fetal\titaneconomy\managers\SellChestManager$SoldItem.class
 net\fetal\titaneconomy\listeners\EconomyListener.class
+net\fetal\titaneconomy\utils\FormatUtil.class
+net\fetal\titaneconomy\managers\SellChestManager$SaleSummary.class
 net\fetal\titaneconomy\managers\EconomyManager.class
 net\fetal\titaneconomy\api\TitanVaultHook.class
 net\fetal\titaneconomy\managers\AuctionManager$AuctionItem.class
+net\fetal\titaneconomy\managers\SellChestManager.class
 net\fetal\titaneconomy\commands\TopCommand.class
+net\fetal\titaneconomy\commands\SellCommand.class
 net\fetal\titaneconomy\commands\EcoCommand.class
 net\fetal\titaneconomy\commands\BalanceCommand.class
 net\fetal\titaneconomy\listeners\NoteListener.class

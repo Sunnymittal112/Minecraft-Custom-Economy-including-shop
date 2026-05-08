@@ -45,12 +45,15 @@ public class ScoreboardManager {
         obj.displayName(getHeaderComponent());
         obj.numberFormat(NumberFormat.blank());
 
+        boolean formatBalance = plugin.getConfig().getBoolean("settings.format-balance", true);
+        String formattedBal = formatBalance ? net.fetal.titaneconomy.utils.FormatUtil.formatNumber(bal, true) : String.format("%.1f", bal);
+
         setLine(obj, "&7----------------", 15);
         setLine(obj, "&fUser:", 14);
         setLine(obj, "&e" + player.getName(), 13);
         setLine(obj, " ", 12);
         setLine(obj, "&fBalance:", 11);
-        setLine(obj, "&a" + currency + String.format("%.1f", bal), 10);
+        setLine(obj, "&a" + currency + formattedBal, 10);
         setLine(obj, " ", 9);
         setLine(obj, "&fLevel:", 8);
         setLine(obj, "&b" + level, 7);

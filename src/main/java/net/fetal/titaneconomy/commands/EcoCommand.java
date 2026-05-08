@@ -50,18 +50,21 @@ public class EcoCommand implements CommandExecutor {
             economyManager.createAccount(target);
         }
 
+        boolean formatBalance = TitanEconomy.getInstance().getConfig().getBoolean("settings.format-balance", true);
+        String formattedAmount = formatBalance ? net.fetal.titaneconomy.utils.FormatUtil.formatNumber(amount, true) : String.format("%.2f", amount);
+
         switch (action) {
             case "give":
                 economyManager.deposit(target, amount);
-                sender.sendMessage(Component.text("Gave $" + amount + " to " + target.getName(), NamedTextColor.GREEN));
+                sender.sendMessage(Component.text("Gave $" + formattedAmount + " to " + target.getName(), NamedTextColor.GREEN));
                 break;
             case "take":
                 economyManager.withdraw(target, amount);
-                sender.sendMessage(Component.text("Took $" + amount + " from " + target.getName(), NamedTextColor.YELLOW));
+                sender.sendMessage(Component.text("Took $" + formattedAmount + " from " + target.getName(), NamedTextColor.YELLOW));
                 break;
             case "set":
                 economyManager.setBalance(target, amount);
-                sender.sendMessage(Component.text("Set " + target.getName() + "'s balance to $" + amount, NamedTextColor.AQUA));
+                sender.sendMessage(Component.text("Set " + target.getName() + "'s balance to $" + formattedAmount, NamedTextColor.AQUA));
                 break;
             default:
                 sender.sendMessage(Component.text("Unknown action. Use give, take, or set.", NamedTextColor.RED));

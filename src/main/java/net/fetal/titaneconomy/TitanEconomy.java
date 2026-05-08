@@ -88,6 +88,16 @@ public class TitanEconomy extends JavaPlugin {
         if (getCommand("baltop") != null) getCommand("baltop").setExecutor(new TopCommand(this));
         if (getCommand("ah") != null) getCommand("ah").setExecutor(new AuctionCommand(this)); // NEW
 
+        // Schedule Auto-Save Task (Every 5 minutes = 6000 ticks)
+        getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+            if (economyManager != null) {
+                economyManager.saveAllData();
+            }
+            if (auctionManager != null) {
+                auctionManager.saveAuctions();
+            }
+        }, 6000L, 6000L);
+
         log.info("System: ALL SYSTEMS OPERATIONAL.");
         log.info("TitanEconomy is now ENABLED!");
     }

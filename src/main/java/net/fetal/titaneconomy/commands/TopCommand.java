@@ -39,15 +39,17 @@ public class TopCommand implements CommandExecutor {
 
             // Header
             sender.sendMessage(Component.text(" ", NamedTextColor.WHITE));
-            sender.sendMessage(Component.text("----------[ 🏆 RICH LIST 🏆 ]----------", NamedTextColor.GOLD));
+            sender.sendMessage(Component.text("----------[  RICH LIST  ]----------", NamedTextColor.GOLD));
 
             int rank = 1;
+            boolean formatBalance = plugin.getConfig().getBoolean("settings.format-balance", true);
+            
             for (Map.Entry<UUID, Double> entry : topList) {
                 OfflinePlayer p = Bukkit.getOfflinePlayer(entry.getKey());
                 String name = (p.getName() != null) ? p.getName() : "Unknown";
-                String bal = String.format("%,.0f", entry.getValue());
+                String bal = formatBalance ? net.fetal.titaneconomy.utils.FormatUtil.formatNumber(entry.getValue(), true) : String.format("%,.0f", entry.getValue());
 
-                // Format: #1 FeTaL - $50,000
+                // Format: #1 FeTaL - $50,000 or $50k
                 NamedTextColor color = (rank == 1) ? NamedTextColor.YELLOW : NamedTextColor.WHITE;
                 
                 sender.sendMessage(Component.text("#" + rank + " ", NamedTextColor.GRAY)

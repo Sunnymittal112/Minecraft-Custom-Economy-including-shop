@@ -1,12 +1,14 @@
 package net.fetal.titaneconomy.data;
 
 import net.fetal.titaneconomy.TitanEconomy;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class DataManager {
@@ -59,20 +61,29 @@ public class DataManager {
     }
 
     public void savePlayerData() {
-        for (UUID uuid : balanceCache.keySet()) {
-            dataConfig.set("balances." + uuid, balanceCache.get(uuid));
-        }
-        for (UUID uuid : levelCache.keySet()) {
-            dataConfig.set("levels." + uuid, levelCache.get(uuid));
-        }
-        for (UUID uuid : xpCache.keySet()) {
-            dataConfig.set("xp." + uuid, xpCache.get(uuid));
-        }
+        // Clone caches to avoid ConcurrentModificationException
+        final Map<UUID, Double> balClone = new HashMap<>(balanceCache);
+        final Map<UUID, Integer> lvlClone = new HashMap<>(levelCache);
+        final Map<UUID, Integer> xpClone = new HashMap<>(xpCache);
 
-        try {
-            dataConfig.save(dataFile);
-        } catch (IOException e) {
-            plugin.getLogger().severe("Could not save data!");
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            FileConfiguration asyncConfig = new YamlConfiguration();
+            
+            for (Map.Entry<UUID, Double> entry : balClone.entrySet()) {
+                asyncConfig.set("balances." + entry.getKey(), entry.getValue());
+            }
+            for (Map.Entry<UUID, Integer> entry : lvlClone.entrySet()) {
+                asyncConfig.set("levels." + entry.getKey(), entry.getValue());
+            }
+            for (Map.Entry<UUID, Integer> entry : xpClone.entrySet()) {
+                asyncConfig.set("xp." + entry.getKey(), entry.getValue());
+            }
+
+            try {
+                asyncConfig.save(dataFile);
+            } catch (IOException e) {
+                plugin.getLogger().severe("Could not save async data!");
+            }
+        });
     }
 }

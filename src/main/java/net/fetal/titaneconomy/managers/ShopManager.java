@@ -475,10 +475,8 @@ public class ShopManager {
     }
 
     public String formatPrice(double price) {
-        if (Math.abs(price - Math.rint(price)) < 0.0001D) {
-            return String.format(Locale.US, "%.0f", price);
-        }
-        return String.format(Locale.US, "%.2f", price);
+        boolean formatBalance = plugin.getConfig().getBoolean("settings.format-balance", true);
+        return formatBalance ? net.fetal.titaneconomy.utils.FormatUtil.formatNumber(price, true) : String.format(Locale.US, "%.2f", price);
     }
 
     public String findItemPathByMaterial(Material material) {
